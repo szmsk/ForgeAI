@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Deployment
+metadata: {name: forgeai-api, namespace: forgeai}
+spec:
+  replicas: 3
+  selector: {matchLabels: {app: forgeai-api}}
+  template:
+    metadata: {labels: {app: forgeai-api}}
+    spec:
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+      - name: api
+        image: ghcr.io/CHANGE_ME/forgeai-api:2.0.0
+        ports: [{containerPort: 8000}]
+        envFrom: [{secretRef: {name: forgeai-config}}]
+        readinessProbe: {httpGet: {path: /api/v1/health, port: 8000}, initialDelaySeconds: 5, periodSeconds: 10}
+        livenessProbe: {httpGet: {path: /api/v1/health, port: 8000}, initialDelaySeconds: 15, periodSeconds: 20}
+        resources: {requests: {cpu: 100m, memory: 256Mi}, limits: {cpu: 1, memory: 1Gi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: forgeai-api, namespace: forgeai}
+spec:
+  selector: {app: forgeai-api}
+  ports: [{port: 8000, targetPort: 8000}]

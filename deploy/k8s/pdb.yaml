@@ -1,0 +1,6 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata: {name: forgeai-api, namespace: forgeai}
+spec:
+  minAvailable: 2
+  selector: {matchLabels: {app: forgeai-api}}

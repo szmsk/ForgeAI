@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: forgeai-worker, namespace: forgeai}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: forgeai-worker}}
+  template:
+    metadata: {labels: {app: forgeai-worker}}
+    spec:
+      serviceAccountName: forgeai-worker
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+      - name: worker
+        image: ghcr.io/CHANGE_ME/forgeai-api:2.0.0
+        command: [python, -m, app.queue.worker]
+        envFrom: [{secretRef: {name: forgeai-config}}]
+        resources: {requests: {cpu: 250m, memory: 512Mi}, limits: {cpu: 2, memory: 2Gi}}

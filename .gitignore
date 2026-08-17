@@ -1,0 +1,56 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+npm-debug.log*
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+
+# Local databases / data
+*.db
+*.sqlite
+*.sqlite3
+postgres-data/
+redis-data/
+minio-data/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Coverage / build
+coverage/
+dist/
+build/
+
+# Terraform / local state
+.terraform/
+*.tfstate
+*.tfstate.*
